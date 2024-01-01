@@ -36,11 +36,13 @@ jobs:
     - name: Run Tests
       run: npm test
 
-    - name: Archive artifacts
+    - name: Save package-lock.json as an artifact
       uses: actions/upload-artifact@v2
       with:
         name: artifacts
-        path: dist
+        path: |
+          package-lock.json
+          dist
 
   dockerize:
     runs-on: ubuntu-latest
@@ -61,7 +63,6 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: artifacts
-        path: dist
 
     - name: Build and Push Docker Image
       uses: docker/build-push-action@v2

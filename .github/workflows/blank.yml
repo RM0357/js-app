@@ -35,4 +35,4 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
       - name: Create Artifact and Dockerize
-        run: do smth here 
+        run: echo ---> do smth here 

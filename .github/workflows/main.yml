@@ -25,8 +25,11 @@ jobs:
     - name: Install Dependencies
       run: npm install
 
-    - name: Create dist directory
-      run: mkdir dist
+    - name: Create dist directory if not exists
+      run: |
+        if [ ! -d "dist" ]; then
+          mkdir dist
+        fi
 
     - name: Minify JavaScript
       run: npm run minify

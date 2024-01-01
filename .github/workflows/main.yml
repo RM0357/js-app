@@ -9,6 +9,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    outputs:
+      # Define the artifact name to share between jobs
+      artifacts: ${{ needs.build.outputs.artifacts }}
+
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
@@ -21,11 +25,20 @@ jobs:
     - name: Install Dependencies
       run: npm install
 
+    - name: Create dist directory
+      run: mkdir dist
+
     - name: Minify JavaScript
       run: npm run minify
 
     - name: Run Tests
       run: npm test
+
+    - name: Archive artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: artifacts
+        path: dist
 
   dockerize:
     runs-on: ubuntu-latest
@@ -35,6 +48,18 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
+
+    - name: Set up Docker
+      uses: actions/setup-docker@v2
+      with:
+        dockerfile: Dockerfile
+        context: .
+
+    - name: Download artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: artifacts
+        path: dist
 
     - name: Build Docker Image
       run: |

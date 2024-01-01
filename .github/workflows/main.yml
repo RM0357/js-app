@@ -66,15 +66,15 @@ jobs:
 
     - name: Build Docker Image
       run: |
-        docker build -t ${{ secrets.DOCKER_REGISTRY_USERNAME }}/simple-web-app:${{ github.sha }} .
+        docker build -t docker.pkg.github.com/rm0357/js-app/simple-web-app:${{ github.sha }} .
       env:
         DOCKER_REGISTRY_USERNAME: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
         DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
 
     - name: Push Docker Image
       run: |
-        docker login -u $DOCKER_REGISTRY_USERNAME -p $DOCKER_REGISTRY_PASSWORD
-        docker push $DOCKER_REGISTRY_USERNAME/simple-web-app:${{ github.sha }}
+        docker login docker.pkg.github.com -u $DOCKER_REGISTRY_USERNAME -p $DOCKER_REGISTRY_PASSWORD
+        docker push docker.pkg.github.com/rm0357/js-app/simple-web-app:${{ github.sha }}
       env:
         DOCKER_REGISTRY_USERNAME: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
         DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}

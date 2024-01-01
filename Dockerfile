@@ -1,9 +1,11 @@
-# Use an official Node.js runtime as a parent image
-FROM node:lts-alpine
-# Set the working directory in the container
+# Dockerfile
+FROM node:14-alpine
+
 WORKDIR /app
-# ... Copying files, installing dependencies ...
-# Expose the port your app is running on (e.g., 3000)
-EXPOSE 3000
-# Define the command to run your Node.js application
-CMD [ "node", "index.js" ]
+
+COPY package.json package-lock.json ./
+RUN npm install
+
+COPY . .
+
+CMD ["npm", "start"]
